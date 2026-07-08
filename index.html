@@ -8829,12 +8829,17 @@ function changeFeixingYear(delta) {
 
 // 初始化
 function initFengshui() {
-    initBazhaiSelects();
+    try { initBazhaiSelects(); } catch(e) { console.warn('initBazhaiSelects error:', e); }
     fsCurrentYear = new Date().getFullYear();
-    // 延迟渲染罗盘
-    setTimeout(() => renderLuopan(), 100);
-    renderFeixing(fsCurrentYear);
+    setTimeout(() => { try { renderLuopan(); } catch(e) { console.warn('renderLuopan error:', e); } }, 100);
+    setTimeout(() => { try { renderFeixing(fsCurrentYear); } catch(e) { console.warn('renderFeixing error:', e); } }, 100);
 }
+// 备用触发：确保罗盘一定渲染
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        if (!document.getElementById('luopan-svg')) renderLuopan();
+    }, 500);
+});
 
 
 </script>
