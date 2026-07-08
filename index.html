@@ -8340,13 +8340,21 @@ let fsDragStart = 0;
 let fsCurrentYear = new Date().getFullYear();
 
 // 切换风水子Tab
+let fsBazhaiInited = false;
 function switchFengshuiTab(tab, btn) {
     document.querySelectorAll('.fengshui-sub-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.fengshui-sub-panel').forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('fs-panel-' + tab).classList.add('active');
+    if (tab === 'luopan') {
+        // 罗盘只在tab可见时渲染，确保容器尺寸正确
+        setTimeout(() => { try { renderLuopan(); } catch(e) { console.error('renderLuopan error:', e); } }, 50);
+    }
+    if (tab === 'bazhai' && !fsBazhaiInited) {
+        fsBazhaiInited = true;
+        try { initBazhaiSelects(); } catch(e) { console.error('initBazhaiSelects error:', e); }
+    }
     if (tab === 'feixing') renderFeixing(fsCurrentYear);
-    if (tab === 'luopan' && !document.getElementById('luopan-svg')) renderLuopan();
 }
 
 // ===== 罗盘绘制 =====
@@ -8829,17 +8837,9 @@ function changeFeixingYear(delta) {
 
 // 初始化
 function initFengshui() {
-    try { initBazhaiSelects(); } catch(e) { console.warn('initBazhaiSelects error:', e); }
     fsCurrentYear = new Date().getFullYear();
-    setTimeout(() => { try { renderLuopan(); } catch(e) { console.warn('renderLuopan error:', e); } }, 100);
-    setTimeout(() => { try { renderFeixing(fsCurrentYear); } catch(e) { console.warn('renderFeixing error:', e); } }, 100);
+    // 罗盘延迟到用户点击tab时才渲染（避免在隐藏容器中渲染失败）
 }
-// 备用触发：确保罗盘一定渲染
-window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        if (!document.getElementById('luopan-svg')) renderLuopan();
-    }, 500);
-});
 
 
 </script>
