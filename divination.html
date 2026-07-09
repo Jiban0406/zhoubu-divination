@@ -3991,8 +3991,7 @@ function updateThemeIcon(theme) {
 }
 
 // 初始化主题
-initTheme();
-initFengshui();
+setTimeout(() => { initTheme(); initFengshui(); }, 0);
 
 // ==================== 基础数据 ====================
 const BAGUA = {
