@@ -7022,7 +7022,7 @@ function testLLMConnection() {
     resultEl.textContent = '⏳ 正在测试连接...';
     resultEl.style.display = 'block';
 
-    fetch(endpoint, {
+    fetch(endpoint.endsWith('/v1') ? endpoint + '/chat/completions' : endpoint, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
