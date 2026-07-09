@@ -4561,6 +4561,7 @@ function getAdvice(guaName) {
 
 // ==================== UI 逻辑 ====================
 
+let lastResult = null;
 let currentMethod = 'digital';
 let coinResults = [null, null, null, null, null, null];
 
@@ -4998,7 +4999,6 @@ function showGuaDetail(name, num) {
 }
 
 // ==================== 历史记录管理 ====================
-let lastResult = null;
 
 function saveToHistory() {
     if (!lastResult) { alert('暂无占卜结果可保存'); return; }
